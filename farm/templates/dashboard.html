@@ -13,16 +13,16 @@
        <div class="flex justify-between items-start">
          <div>
             <p class="text-emerald-100 font-medium mb-1">Total Profit</p>
-            <h2 class="text-3xl font-bold">Ksh </h2>
+            <h2 class="text-3xl font-bold">Ksh {{ profit|default:"0" }}</h2>
          </div>
          <div class="bg-white/20 p-2 rounded-lg">
             <i data-lucide="trending-up" class="w-6 h-6"></i>
          </div>
        </div>
        <div class="mt-4 flex items-center text-sm text-emerald-100">
-         <span>Income: </span>
+         <span>Income: {{ income }}</span>
          <span class="mx-2">|</span>
-         <span>Exp:</span>
+         <span>Exp: {{ expenses }}</span>
        </div>
     </div>
 

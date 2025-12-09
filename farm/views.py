@@ -16,9 +16,9 @@ def index(request):
     return render(request,'index.html')
 def dashboard(request):
     #Financial Summary
-    financials = FinancialRecord.objects.all()
-    income = financials(type='Income').aggregate(total=Sum('amount'))['total'] or Decimal('0')
-    expenses = financials(type='Expense').aggregate(total=Sum('amount'))['total'] or Decimal('0')
+    financials_list = FinancialRecord.objects.all()
+    income = financials_list.filter(type='Income').aggregate(total=Sum('amount'))['total'] or Decimal('0')
+    expenses = financials_list.filter(type='Expense').aggregate(total=Sum('amount'))['total'] or Decimal('0')
     profit = income - expenses
 
     #Counts
@@ -48,6 +48,19 @@ def add_crop(request):
         Crop.objects.create(type=type, fieldLocation=fieldLocation, plantingDate=plantingDate, expectedHarvestDate=expectedHarvestDate)
         return redirect('crops')
     return render(request,'crops.html')
+def edit_crop(request, crop_id):
+    crop = get_object_or_404(Crop, id=crop_id)
+    if request.method == 'POST':
+        crop.type = request.POST('type')
+        crop.fieldLocation = request.POST('fieldLocation')
+        crop.plantingDate = request.POST('plantingDate')
+        crop.expectedHarvestDate = request.POST.get('expectedHarvestDate') or None
+        crop.status = request.POST.get('status', crop.status)
+        crop.save()
+        messages.success(request, "Crop updated.")
+        return redirect('crops')
+    return render(request, 'edit_crop.html')
+
 def delete_crop(request, id):
     if request.method == "POST":
         crops_list = get_object_or_404(Crop, id=id)
@@ -124,9 +137,9 @@ def delete_vet_record(request, id):
 
 
 def financials(request):
-    financials = FinancialRecord.objects.all()
-    total_income = financials(type='Income').aggregate(total=Sum('amount'))['total'] or Decimal('0')
-    total_expenses = financials(type='Expense').aggregate(total=Sum('amount'))['total'] or Decimal('0')
+    financials_list = FinancialRecord.objects.all()
+    total_income = financials_list.filter(type='Income').aggregate(total=Sum('amount'))['total'] or Decimal('0')
+    total_expenses = financials_list.filter(type='Expense').aggregate(total=Sum('amount'))['total'] or Decimal('0')
     net_profit = total_income - total_expenses
 
     # simple percentages for placeholder chart
@@ -161,6 +174,14 @@ def add_financial(request):
         )
         messages.success(request, "Financial record added.")
     return redirect('financials')
+def delete_financial(request, fin_id):
+    financials_list = get_object_or_404(FinancialRecord, id=fin_id)
+    if request.method == 'POST':
+        financials_list.delete()
+        messages.success(request, "Record deleted.")
+        return redirect('financials')
+    return render(request,'financials.html', {})
+
 
 def marketplace(request):
     market_item_list = MarketItem.objects.all()

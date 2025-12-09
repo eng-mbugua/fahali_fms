@@ -29,6 +29,8 @@ urlpatterns = [
     path('crops/', views.crops, name='crops'),
     path('add_crop', views.add_crop, name='add_crop'),
     path('delete_crop/<int:id>/', views.delete_crop, name='delete_crop'),
+    path('edit_crop/<int:crop_id>/', views.edit_crop, name='edit_crop'),
+
 
     #Livestock
     path('livestock/', views.livestock, name='livestock'),
@@ -51,6 +53,7 @@ urlpatterns = [
     #Financials
     path ('financials/', views.financials, name='financials'),
     path('financials/add/', views.add_financial, name='add_financial'),
+    path('financials/delete/<int:fin_id>/', views.delete_financial, name='delete_financial'),
 
 
     #Marketplace
