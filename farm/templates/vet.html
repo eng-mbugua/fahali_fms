@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Veterinary Services</h1>
+        <button onclick="document.getElementById('vetModal').classList.remove('hidden')" class="bg-emerald-600 text-white px-4 py-2 rounded-lg flex gap-2 items-center">
+            <i data-lucide="plus" class="w-5 h-5"></i> Log Visit
+        </button>
+    </div>
+    <div class="grid gap-4">
+        {% for r in vet_list %}
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                <div class="flex items-start gap-4">
+                    <div class="bg-red-50 p-3 rounded-full"><i data-lucide="syringe" class="text-red-500 w-5 h-5"></i></div>
+                    <div>
+                        <h3 class="font-bold text-gray-800">{{ r.treatment }}</h3>
+                        <p class="text-sm text-gray-600"><strong>Livestock Type:</strong>  {{ r.livestock.category }} | <strong>Vet:</strong> {{ r.veterinarian }}</p>
+                        <p class="text-xs text-gray-400">{{ r.date }}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-bold text-red-600">- Ksh {{ r.cost }}</p>
+                    <form action="" method="POST" onsubmit="return confirm('Are you sure you want to delete this vet record?');">
+                        {% csrf_token %}
+                        <button class="text-gray-400 hover:text-red-500 mt-2">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-gray-400 text-center">No veterinary records found.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Modal -->
+    <div id="vetModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <form action="" method="POST" class="bg-white p-6 rounded-lg w-96 space-y-4">
+            {% csrf_token %}
+            <h3 class="font-bold text-lg">Log Vet Visit</h3>
+            <input name="livestockId" class="w-full border p-2 rounded" placeholder="Livestock Tag ID" required />
+            <input name="treatment" class="w-full border p-2 rounded" placeholder="Treatment/Vaccine" required />
+            <input type="date" name="date" class="w-full border p-2 rounded" required />
+            <input name="veterinarian" class="w-full border p-2 rounded" placeholder="Veterinarian Name" required />
+            <input type="number" name="cost" class="w-full border p-2 rounded" placeholder="Cost" required />
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('vetModal').classList.add('hidden')" class="text-gray-500">Cancel</button>
+                <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

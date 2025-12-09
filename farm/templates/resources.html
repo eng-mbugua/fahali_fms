@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Farm Resources</h1>
+        <button onclick="document.getElementById('resourceModal').classList.remove('hidden')" class="bg-emerald-600 text-white px-4 py-2 rounded-lg flex gap-2 items-center">
+            <i data-lucide="plus" class="w-5 h-5"></i> Add Resource
+        </button>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <table class="w-full text-left text-sm text-gray-600">
+            <thead class="bg-gray-50 text-gray-900">
+                <tr><th class="p-4">Name</th><th class="p-4">Type</th><th class="p-4">Quantity</th><th class="p-4">Last Updated</th><th class="p-4">Action</th></tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for r in resources_list %}
+                    <tr>
+                        <td class="p-4 font-medium">{{ r.name }}</td>
+                        <td class="p-4">{{ r.type }}</td>
+                        <td class="p-4">{{ r.quantity }} {{ r.unit }}</td>
+                        <td class="p-4">{{ r.lastUpdated }}</td>
+                        <td class="p-4">
+                            <form action="" method="POST" onsubmit="return confirm('Are you sure you want to delete this resource?');">
+                                {% csrf_token %}
+                                <button class="text-red-500">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div id="resourceModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <form action="" method="POST" class="bg-white p-6 rounded-lg w-96 space-y-4">
+            {% csrf_token %}
+            <h3 class="font-bold text-lg">Add Resource</h3>
+            <input name="name" class="w-full border p-2 rounded" placeholder="Name" required />
+            <select name="type" class="w-full border p-2 rounded">
+                <option value="Feed">Feed</option><option value="Seed">Seed</option><option value="Fertilizer">Fertilizer</option><option value="Equipment">Equipment</option>
+            </select>
+            <div class="flex gap-2">
+                <input type="number" name="quantity" class="w-full border p-2 rounded" placeholder="Qty" required />
+                <input name="unit" class="w-full border p-2 rounded" placeholder="Unit (kg/bags)" required />
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('resourceModal').classList.add('hidden')" class="text-gray-500">Cancel</button>
+                <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

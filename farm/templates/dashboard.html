@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="space-y-6">
+  <div class="flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+    <p class="text-gray-500"></p>
+  </div>
+
+  <!-- Top Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-xl p-6 text-white shadow-lg">
+       <div class="flex justify-between items-start">
+         <div>
+            <p class="text-emerald-100 font-medium mb-1">Total Profit</p>
+            <h2 class="text-3xl font-bold">Ksh </h2>
+         </div>
+         <div class="bg-white/20 p-2 rounded-lg">
+            <i data-lucide="trending-up" class="w-6 h-6"></i>
+         </div>
+       </div>
+       <div class="mt-4 flex items-center text-sm text-emerald-100">
+         <span>Income: </span>
+         <span class="mx-2">|</span>
+         <span>Exp:</span>
+       </div>
+    </div>
+
+    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+       <h3 class="text-gray-500 font-medium mb-2">Livestock Count</h3>
+       <div class="flex items-end space-x-2">
+         <span class="text-4xl font-bold text-gray-800">67</span>
+         <span class="text-gray-400 mb-1">Animals</span>
+       </div>
+       <div class="mt-4 h-2 bg-emerald-100 rounded-full overflow-hidden">
+         <div class="h-full bg-emerald-500 w-3/4"></div>
+       </div>
+    </div>
+
+    <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+       <h3 class="text-gray-500 font-medium mb-2">Active Crops</h3>
+       <div class="flex items-end space-x-2">
+         <span class="text-4xl font-bold text-gray-800">67</span>
+         <span class="text-gray-400 mb-1">Fields</span>
+       </div>
+       <div class="mt-4 h-2 bg-yellow-100 rounded-full overflow-hidden">
+         <div class="h-full bg-yellow-500 w-1/2"></div>
+       </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Weather Widget -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Weather Forecast</h3>
+      <div class="flex items-center space-x-6">
+        <div class="flex flex-col items-center">
+           <i data-lucide="sun" class="text-yellow-500 mb-2 w-12 h-12"></i>
+           <span class="text-2xl font-bold text-gray-800">24°C</span>
+           <span class="text-gray-500 text-sm">Today</span>
+        </div>
+        <div class="flex-1 grid grid-cols-3 gap-2 text-center">
+           <div class="bg-blue-50 p-2 rounded-lg">
+              <p className="text-xs text-gray-500">Tue</p>
+              <i data-lucide="cloud-rain" class="mx-auto my-1 text-blue-500 w-5 h-5"></i>
+              <p class="font-semibold text-sm">21°</p>
+           </div>
+           <div class="bg-gray-50 p-2 rounded-lg">
+              <p class="text-xs text-gray-500">Wed</p>
+              <i data-lucide="sun" class="mx-auto my-1 text-yellow-500 w-5 h-5"></i>
+              <p class="font-semibold text-sm">25°</p>
+           </div>
+           <div class="bg-gray-50 p-2 rounded-lg">
+              <p class="text-xs text-gray-500">Thu</p>
+              <i data-lucide="sun" class="mx-auto my-1 text-yellow-500 w-5 h-5"></i>
+              <p class="font-semibold text-sm">26°</p>
+           </div>
+        </div>
+      </div>
+      <p class="mt-4 text-sm text-gray-600 bg-blue-50 p-3 rounded-lg border border-blue-100">
+        <span class="font-bold">Advice:</span> Good day for drying feed. Rain expected tomorrow afternoon.
+      </p>
+    </div>
+
+    <!-- To-Do List -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div class="flex justify-between items-center mb-4">
+         <h3 class="text-lg font-semibold text-gray-800">To-Do List</h3>
+         <form action="" method="post" class="flex gap-2">
+             {% csrf_token %}
+             <input type="text" name="task" placeholder="New task..." class="border rounded px-2 py-1 text-sm">
+             <button type="submit" class="bg-emerald-600 text-white rounded px-2 py-1 text-xs">Add</button>
+         </form>
+      </div>
+      <div class="space-y-3 max-h-48 overflow-y-auto pr-2">
+          <div class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg">
+             <form action="" method="post">
+                 {% csrf_token %}
+                 <button type="submit" class="focus:outline-none">
+                        <i data-lucide="check-circle" class="text-emerald-500 w-5 h-5"></i>
+
+                        <i data-lucide="circle" class="text-gray-300 w-5 h-5"></i>
+
+                 </button>
+             </form>
+             <span class="{% if todo.completed %}line-through text-gray-400{% else %}text-gray-700{% endif %}">{{ todo.task }}</span>
+             <span class="text-xs text-gray-400 ml-auto">{{ todo.due_date }}</span>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="space-y-6">
+  <div class="bg-emerald-800 text-white p-8 rounded-2xl flex justify-between items-center relative overflow-hidden">
+     <div class="relative z-10">
+        <h1 class="text-3xl font-bold mb-2">Fahali Marketplace</h1>
+        <p class="text-emerald-200 max-w-lg">Connect directly with local farms. Fresh produce, livestock, and quality products.</p>
+     </div>
+
+        <button onclick="document.getElementById('marketModal').classList.remove('hidden')" class="relative z-10 bg-white text-emerald-900 px-6 py-3 rounded-lg font-bold hover:bg-emerald-50 transition-colors flex items-center gap-2 shadow-lg">
+            <i data-lucide="plus" class="w-5 h-5"></i> List Item
+        </button>
+
+     <div class="absolute -right-10 -bottom-20 w-64 h-64 bg-emerald-700 rounded-full opacity-50"></div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {% for item in market_item_list %}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group">
+            <div class="h-40 bg-gray-100 flex items-center justify-center text-gray-300">
+                <div class="text-center">
+                    <i data-lucide="tag" class="mx-auto mb-2 opacity-50 w-10 h-10"></i>
+                    <span class="text-xs font-medium block">{{ item.category }}</span>
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-bold text-gray-800 text-lg">{{ item.name }}</h3>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-bold">Ksh {{ item.price }}</span>
+                </div>
+                <p class="text-gray-500 text-sm mb-4 line-clamp-2">{{ item.description }}</p>
+                <div class="flex justify-between items-center mt-auto">
+                    <span class="text-xs text-gray-400">Stock: {{ item.quantity }}</span>
+                    <div class="flex gap-2">
+
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="bg-emerald-600 text-white p-2 rounded-lg hover:bg-emerald-700 transition-colors">
+                                    <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+
+
+                            <form action="" method="POST" onsubmit="return confirm('Are you sure you want to remove this item from the marketplace?');">
+                                {% csrf_token %}
+                                <button class="text-red-500 p-2 hover:bg-red-50 rounded-lg transition-colors">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+  </div>
+
+  <!-- Modal -->
+  <div id="marketModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <form action="" method="POST" class="bg-white p-6 rounded-lg w-full max-w-md space-y-4">
+          {% csrf_token %}
+          <h3 class="font-bold text-xl mb-4">List New Product</h3>
+          <input name="name" class="w-full border p-2 rounded" placeholder="Product Name" required />
+          <div class="grid grid-cols-2 gap-4">
+              <input type="number" name="price" class="w-full border p-2 rounded" placeholder="Price (Ksh)" required />
+              <input type="number" name="quantity" class="w-full border p-2 rounded" placeholder="Quantity" required />
+          </div>
+          <select name="category" class="w-full border p-2 rounded">
+              <option value="Product">Farm Product</option>
+              <option value="Crop">Crop</option>
+              <option value="Livestock">Livestock</option>
+          </select>
+          <textarea name="description" class="w-full border p-2 rounded" placeholder="Description" rows="3"></textarea>
+          <div class="flex justify-end gap-2 pt-2">
+              <button type="button" onclick="document.getElementById('marketModal').classList.add('hidden')" class="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded">Cancel</button>
+              <button type="submit" class="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">List Item</button>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}

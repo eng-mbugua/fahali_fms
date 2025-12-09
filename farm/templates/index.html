@@ -1,0 +1,78 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Note: If user is not authenticated, base.html won't show the sidebar, which is correct for landing page. -->
+<!-- However, typically Landing Page has its own Navbar. Assuming we override or handle it. -->
+
+<div class="min-h-screen bg-white -m-4 md:-m-8"> <!-- Negative margin to break out of main padding if needed, or handle differently -->
+
+  <!-- Public Navbar -->
+  <nav class="border-b border-gray-100 py-4 px-6 md:px-12 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-50">
+    <div class="flex items-center space-x-2">
+       <div class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
+         <span class="text-white font-bold">F</span>
+       </div>
+       <span class="text-xl font-bold text-gray-800">Fahali</span>
+    </div>
+    <div class="space-x-4">
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="text-gray-600 hover:text-emerald-600 font-medium">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="text-gray-600 hover:text-emerald-600 font-medium">Log In</a>
+        {% endif %}
+
+
+      <a href="" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-full font-medium transition-all">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="relative py-20 px-6 text-center max-w-5xl mx-auto">
+     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-emerald-100 rounded-full blur-3xl -z-10 opacity-50"></div>
+     <h1 class="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight mb-6">
+       Farm Smarter, <br />
+       <span class="text-emerald-600">Grow Better.</span>
+     </h1>
+     <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+       The all-in-one management system for modern farmers. Track livestock, crops, and finances in one intuitive dashboard.
+     </p>
+     <a href="{% url 'register' %}" class="inline-flex items-center gap-2 bg-emerald-600 text-white text-lg px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
+        Start Your Free Account <i data-lucide="chevron-right"></i>
+     </a>
+  </header>
+
+  <!-- Features Section -->
+  <section class="py-20 bg-gray-50">
+     <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+           <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6 text-green-600">
+               <i data-lucide="sprout" class="w-7 h-7"></i>
+           </div>
+           <h3 className="text-xl font-bold mb-3">Crop & Livestock Management</h3>
+           <h3 class="text-xl font-bold mb-3">Crop & Livestock Management</h3>
+           <p class="text-gray-600">Keep detailed records of your herd and fields. Track health, growth, and harvest cycles effortlessly.</p>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+           <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+               <i data-lucide="bar-chart-3" class="w-7 h-7"></i>
+           </div>
+           <h3 class="text-xl font-bold mb-3">Financial Tracking</h3>
+           <p class="text-gray-600">Monitor your expenses and income. Generate simple profit/loss reports to understand your farm's health.</p>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+           <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6 text-purple-600">
+               <i data-lucide="users" class="w-7 h-7"></i>
+           </div>
+           <h3 class="text-xl font-bold mb-3">Direct Marketplace</h3>
+           <p class="text-gray-600">Sell your produce directly to customers. Eliminate middlemen and maximize your profits.</p>
+        </div>
+     </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-12 text-center">
+    <p>&copy; 2023 Fahali Systems. Built for farmers.</p>
+  </footer>
+</div>
+{% endblock %}
