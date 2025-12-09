@@ -27,20 +27,31 @@ urlpatterns = [
 
     #Crops
     path('crops/', views.crops, name='crops'),
+    path('add_crop', views.add_crop, name='add_crop'),
+    path('delete_crop/<int:id>/', views.delete_crop, name='delete_crop'),
 
     #Livestock
     path('livestock/', views.livestock, name='livestock'),
+    path('add_livestock', views.add_livestock, name='add_livestock'),
+    path('delete_livestock/<int:id>/', views.delete_livestock, name='delete_livestock'),
     # path('livestock/add/', views.add_livestock, name='add_livestock'),
     # path('livestock/delete/<int:animal_id>/', views.delete_livestock, name='delete_livestock'),
 
     #Resources
     path('resources/', views.resources, name='resources'),
+    path('add_resource', views.add_resource, name='add_resource'),
+    path('delete_resource/<int:id>/', views.delete_resource, name='delete_resource'),
+
 
     #Veterinarian
     path('vet/', views.vet, name='vet'),
+    path('add_vet_record', views.add_vet_record, name='add_vet_record'),
+    path('delete_vet_record/<int:id>/', views.delete_vet_record, name='delete_vet_record'),
 
     #Financials
     path ('financials/', views.financials, name='financials'),
+    path('financials/add/', views.add_financial, name='add_financial'),
+
 
     #Marketplace
     path('marketplace/', views.marketplace, name='marketplace'),

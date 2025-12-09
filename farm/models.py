@@ -21,7 +21,7 @@ class Livestock(models.Model):
     age = models.PositiveIntegerField(help_text="Age in months")
     healthStatus = models.CharField(max_length=50, default='Healthy')
     location = models.CharField(max_length=50, blank=True, null=True)
-    owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, default=User)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -33,7 +33,7 @@ class Crop(models.Model):
     plantingDate = models.DateField()
     expectedHarvestDate = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=50, default='Growing')  # Growing, Ready, Harvested
-    owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -45,7 +45,7 @@ class Resource(models.Model):
     quantity = models.FloatField(default=0)
     unit = models.CharField(max_length=50, default='kg')
     lastUpdated = models.DateTimeField(default=timezone.now)
-    owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} - {self.quantity} {self.unit}"
@@ -57,7 +57,7 @@ class VetRecord(models.Model):
     date = models.DateField(default=timezone.now)
     veterinarian = models.CharField(max_length=150)
     cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -65,7 +65,7 @@ class VetRecord(models.Model):
 
 class FinancialRecord(models.Model):
     TYPE_CHOICES = (('Income', 'Income'), ('Expense', 'Expense'))
-    owner = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     date = models.DateField(default=timezone.now)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
@@ -83,7 +83,7 @@ class MarketItem(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     category = models.CharField(max_length=100, default='Product')  # Product, Crop, Livestock
     description = models.TextField(blank=True)
-    farmer = models.ForeignKey(FarmUser, on_delete=models.CASCADE)
+    farmer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

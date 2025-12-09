@@ -82,7 +82,7 @@
 
    <!-- Modal -->
    <div id="financeModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <form action="" method="POST" class="bg-white p-6 rounded-lg w-full max-w-sm space-y-4">
+        <form action="{% url 'add_financial' %}" method="POST" class="bg-white p-6 rounded-lg w-full max-w-sm space-y-4">
             {% csrf_token %}
             <h3 class="font-bold text-lg">Add Transaction</h3>
             <div class="flex gap-4">
