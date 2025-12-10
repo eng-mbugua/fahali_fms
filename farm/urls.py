@@ -35,6 +35,7 @@ urlpatterns = [
     #Livestock
     path('livestock/', views.livestock, name='livestock'),
     path('add_livestock', views.add_livestock, name='add_livestock'),
+    path('edit_livestock<int:animal_id>/', views.edit_livestock, name='edit_livestock'),
     path('delete_livestock/<int:id>/', views.delete_livestock, name='delete_livestock'),
     # path('livestock/add/', views.add_livestock, name='add_livestock'),
     # path('livestock/delete/<int:animal_id>/', views.delete_livestock, name='delete_livestock'),

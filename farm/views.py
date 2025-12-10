@@ -51,15 +51,16 @@ def add_crop(request):
 def edit_crop(request, crop_id):
     crop = get_object_or_404(Crop, id=crop_id)
     if request.method == 'POST':
-        crop.type = request.POST('type')
-        crop.fieldLocation = request.POST('fieldLocation')
-        crop.plantingDate = request.POST('plantingDate')
+        crop.type = request.POST['type']
+        crop.fieldLocation = request.POST['fieldLocation']
+        crop.plantingDate = request.POST['plantingDate']
         crop.expectedHarvestDate = request.POST.get('expectedHarvestDate') or None
         crop.status = request.POST.get('status', crop.status)
         crop.save()
         messages.success(request, "Crop updated.")
         return redirect('crops')
-    return render(request, 'edit_crop.html')
+    return render(request, 'edit_crop.html', {'crop': crop})
+
 
 def delete_crop(request, id):
     if request.method == "POST":
@@ -85,14 +86,29 @@ def add_livestock(request):
         Livestock.objects.create(category=category, tagId=tagId, breed=breed, age=age, location=location, healthStatus=healthStatus, owner=owner)
         return redirect('livestock')
 
-
     return render(request,'livestock.html', {})
+def edit_livestock(request, animal_id):
+    animal = get_object_or_404(Livestock, id=animal_id)
+    if request.method == 'POST':
+        animal.category = request.POST['category']
+        animal.tagId = request.POST['tagId']
+        animal.breed = request.POST['breed']
+        animal.age = request.POST['age']
+        animal.location = request.POST['location']
+        animal.healthStatus = request.POST['healthStatus']
+        animal.save()
+        messages.success(request, "Animal record updated.")
+        return redirect('livestock')
+    return render(request, 'edit_livestock.html', {'animal': animal})
+
+
 def delete_livestock(request, id):
     if request.method == "POST":
         livestock_list = get_object_or_404(Livestock, id=id)
         livestock_list.delete()
         return redirect('livestock')
     return render(request,'livestock.html', {})
+
 
 def resources(request):
     resources_list = Resource.objects.all()
